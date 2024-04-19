@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/css/index.css">
+</head>
+
+<body>
+    <div id="header" >
+        <a href="/admin/comments">List Of Comment</a>
+        <a href="#" onclick="goToLogin()">Logout</a>
+    </div>
+    <div class="list-comment content">
+        <div class="isi-content">
+            <h2>Edit Comment</h2>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="/public/js/index.js"></script>
+    <script>
+        cekToken();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        let urlComment = url.comment;
+        let header = new Headers({
+            'x-access-token': sessionStorage.getItem('token'),
+            "Content-Type": "application/json"
+        })
+
+        fetch(urlComment+'/' + id, {
+            headers: header,
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(repos => {
+                if (repos.data) {
+                    let comment = repos.data;
+                    $('<form action="javascript:handleUpdate()">')
+                        .append('<input type="text" name="name" id="name" placeholder="Your name..." value="' + comment.name + '" >')
+                        .append('<textarea type="text" name="comment" id="comment" placeholder="Your comment..." >' + comment.comment + '</textarea>')
+                        .append('<br>')
+                        .append('<button type="submit">Submit</button>')
+                        .appendTo('.isi-content');
+                } else {
+                    alert(repos.message + ' please relogin')
+                    goToLogin()
+                }
+            })
+            .catch(err => {
+                // $(".isi-content h2").text("Wrong ID").css({ "color": "Red" });
+                // alert("Wrong ID")
+                console.log(err)
+            })
+
+        function handleUpdate() {
+            if (!document.getElementById('name').value || !document.getElementById('comment').value) {
+                alert('Insert Correct Name and Comment')
+            } else {
+                var dataObject = { 'name': document.getElementById('name').value, 'comment': document.getElementById('comment').value, '_id': id };
+                $.ajax({
+                    url: urlComment,
+                    type: 'PUT',
+                    data: JSON.stringify(dataObject),
+                    headers: {
+                        'x-access-token': sessionStorage.getItem('token'),
+                        "Content-Type": "application/json"
+                    },
+                    // contentType: "application/json",
+                    dataType: 'json',
+                    success: function (result) {
+                        alert("success");
+                        document.location.reload(true)
+                    },
+                    error: function (jqXHR, status, errorThrown) {
+                        if (cekErr(jqXHR.responseJSON.message)) {
+                            alert(jqXHR.responseJSON.message + " Please re Login!")
+                            goToLogin()
+                        }
+                        else {
+                            alert("error : " + errorThrown)
+                        }
+                    }
+                });
+            }
+
+        }
+    </script>
+</body>
+
+</html>

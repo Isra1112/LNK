@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      
+    <link rel="stylesheet" href="/public/css/login.css">
+</head>
+
+<body>
+    <div class="login">
+            <img src="./public/img/logo.png" alt="logo">
+        <div class="isi-content">
+            <!-- <h2>Login</h2> -->
+            <div class="list-comment content">
+                <form action="javascript:handleLogin()">
+                    <input type="email" name="email" id="email" placeholder="Email">
+                    <input type="password" name="password" id="password" placeholder="Password">
+                    <br>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type = "text/javascript" src="/public/js/index.js"></script>
+    <script>
+        cekLogin();
+        let urlAttemptLogin = url.attemptLogin;
+
+        function handleLogin() {
+            if (!document.getElementById('email').value || !document.getElementById('password').value) {
+                alert('Insert Correct Email and Password')
+            } else {
+                var dataObject = { 'email': document.getElementById('email').value, 'password': document.getElementById('password').value };
+                $.ajax({
+                    url: urlAttemptLogin,
+                    type: 'POST',
+                    data: JSON.stringify(dataObject),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (result) {
+                        sessionStorage.clear();
+                        sessionStorage.setItem("token", result.token)
+                        window.location.replace(url.landingPage);
+                    },
+                    error: function (jqXHR, status, errorThrown) {
+                        alert("error : " + jqXHR.responseJSON.message)
+                    }
+                });
+            }
+
+        }
+    </script>
+</body>
+
+</html>

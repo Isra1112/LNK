@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Artikel</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/css/index.css">
+    <style>
+        #image {
+            margin-top: 10px;
+            font-weight: 400;
+            width: 10%;
+            padding-bottom: 0px;
+            user-select: none;
+            text-decoration: line-through;
+            font-style: italic;
+            font-size: medium;
+            margin-left: 10px;
+
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 20% auto;
+            grid-gap: 10px;
+        }
+    </style>
+</head>
+
+<body onload="generate()">
+    <div>
+        <img src="./public/img/logo.png" alt="logo">
+    </div>
+    <div class="my-article content">
+        <article>
+            <h2>My Article</h2>
+            <h5>6th May 2021</h5>
+            <!-- <br> -->
+            <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
+                into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
+                release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+                software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+        </article>
+    </div>
+
+    <div class="add-comment content">
+        <div class="isi-content">
+            <h2>Add Your Comment</h2>
+            <form action="javascript:handlePost()">
+                <input type="text" name="name" id="name" placeholder="Your name..." required>
+                <textarea type="text" name="comment" id="comment" placeholder="Your comment..." required></textarea>
+                <div class="grid-container">
+                    <input type="text" name="captcha" id="captcha" placeholder="Captcha..." style="width: auto;"
+                        required>
+                    <div id="image" class="inline" selectable="False">
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="list-comment content">
+        <div class="isi-content" id="isi-content">
+            <h2 id="head-list-comment">Comment</h2>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="/public/js/index.js"></script>
+    <script>
+        let captcha;
+        function generate() {
+            document.getElementById("captcha").value = "";
+
+            captcha = document.getElementById("image");
+            let uniquechar = "";
+
+            const randomchar =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+
+            for (let i = 1; i < 5; i++) {
+                uniquechar += randomchar.charAt(
+                    Math.random() * randomchar.length)
+            }
+            captcha.innerHTML = uniquechar;
+        }
+
+
+
+        let urlComment = url.comment;
+        let comment;
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const nth = function (d) {
+            if (d > 3 && d < 21) return 'th';
+            switch (d % 10) {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        }
+
+        fetch(urlComment)
+            .then(response => response.json())
+            .then(repos => {
+                comment = repos.data;
+                $("h2#head-list-comment").text("Comment(" + comment.length + ")")
+                if (comment.length < 1) {
+                    $('<div class="comment-container">')
+                        .append('<h2>No data Comment</h2>')
+                        .appendTo('#isi-content');
+                } else {
+                    comment.forEach(element => {
+                        let date = new Date(element.createdAt)
+                        let day = date.getDay()
+                        let month = months[date.getMonth()]
+                        let year = date.getFullYear()
+
+                        $('<div class="comment-container">')
+                            .append('<h2>' + element.name + '</h2>')
+                            .append('<h5>' + day + '<sup>' + nth(day) + '</sup> ' + month + ' ' + year + '</h5>')
+                            .append('<div class="isi-comment">' + '<p>' + element.comment + '</p>' + '</div>')
+                            .append()
+                            .appendTo('#isi-content');
+                    });
+                }
+
+            })
+            .catch(err => console.log(err))
+
+        function handlePost() {
+            const usr_input = document.getElementById("captcha").value;
+            if (usr_input == captcha.innerHTML) {
+                if (!document.getElementById('name').value || !document.getElementById('comment').value) {
+                    alert('Insert Correct Name and Comment')
+                } else {
+                    var dataObject = { 'name': document.getElementById('name').value, 'comment': document.getElementById('comment').value };
+                    $.ajax({
+                        url: urlComment,
+                        type: 'POST',
+                        data: JSON.stringify(dataObject),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (result) {
+                            alert("success");
+                            document.location.reload(true)
+                        },
+                        error: function (jqXHR, status, errorThrown) {
+                            alert("error : " + errorThrown)
+                        }
+                    });
+                }
+            } else {
+                alert('Wrong Captcha')
+                document.getElementById("captcha").value = "";
+
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>

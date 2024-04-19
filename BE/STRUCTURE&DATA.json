@@ -1,0 +1,104 @@
+{
+    "structure": {
+        "users": {
+            "name": {
+                "type": "String",
+                "required": true,
+                "trim": true
+            },
+            "email": {
+                "type": "String",
+                "required": true,
+                "unique": true,
+                "trim": true
+            },
+            "password": {
+                "type": "String",
+                "required": true,
+                "trim": true
+            }
+        },
+        "comments": {
+            "name": {
+                "type": "String",
+                "required": true,
+                "trim": true
+            },
+            "comment": {
+                "type": "String",
+                "required": true,
+                "trim": true
+            }
+        }
+    },
+    "data": {
+        "users": [
+            {
+                "_id": {
+                    "$oid": "639a7f4a1d44f55c6648d3a2"
+                },
+                "name": "user dummy 1",
+                "email": "user1@email.com",
+                "password": "123",
+                "roles": {
+                    "$oid": "631dcad0fec2d1334dfab30c"
+                },
+                "createdAt": {
+                    "$date": {
+                        "$numberLong": "1662911754184"
+                    }
+                },
+                "updatedAt": {
+                    "$date": {
+                        "$numberLong": "1662911754184"
+                    }
+                },
+                "__v": {
+                    "$numberInt": "0"
+                }
+            }
+        ],
+        "comments": [
+            {
+                "_id": {
+                    "$oid": "639a7fda83e5705ded03144e"
+                },
+                "name": "Isra Khairul",
+                "comment": "Lorem Ipsum",
+                "createdAt": {
+                    "$date": {
+                        "$numberLong": "1671069658302"
+                    }
+                },
+                "updatedAt": {
+                    "$date": {
+                        "$numberLong": "1671069658302"
+                    }
+                },
+                "__v": {
+                    "$numberInt": "0"
+                }
+            },
+            {
+                "_id": {
+                    "$oid": "639a802383e5705ded031451"
+                },
+                "name": "Maradona",
+                "comment": "Lorem Ipsum has been the industry's standard dummy text ever since the 1500swhen an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                "createdAt": {
+                    "$date": {
+                        "$numberLong": "1671069731053"
+                    }
+                },
+                "updatedAt": {
+                    "$date": {
+                        "$numberLong": "1671069731053"
+                    }
+                },
+                "__v": {
+                    "$numberInt": "0"
+                }
+            }
+        ]
+    }
+}

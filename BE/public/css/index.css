@@ -1,0 +1,147 @@
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10%
+}
+
+.content {
+    border: 1px solid black;
+    margin: 0.5% auto;
+    width: 50%;
+}
+
+article {
+    padding: 2%;
+}
+
+article h2 {
+    margin-bottom: 0;
+}
+
+article h5 {
+    color: grey;
+    margin-top: 0;
+}
+
+.isi-content {
+    padding: 2%;
+}
+
+input[type=text] {
+    display: block;
+    width: 30%;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+textarea {
+    width: 50%;
+    height: 5rem;
+}
+
+.comment-container {
+    border: 1px solid black;
+    margin: 0.5%;
+    width: auto;
+    padding: 1%;
+}
+
+.comment-container h2 {
+    margin-bottom: 0;
+}
+
+.comment-container h5 {
+    color: grey;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.comment-container p {
+    margin-top: 0;
+}
+
+button[type=submit] {
+    background-color: rgb(83, 83, 249);
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.edit {
+    background-color: rgb(83, 83, 249);
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.remove {
+    background-color: rgba(198, 2, 2, 0.859);
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.isi-comment {
+    display: flex;
+}
+
+.isi-comment p {
+    flex-grow: 6;
+}
+
+.isi-comment button {
+    flex-grow: 2;
+    margin: 2px 5px;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+
+@media only screen and (max-width: 768px) {
+    /* For desktop: */
+    img {
+        display: block;
+        /* margin-left: 0;
+        margin-right: 0; */
+        width: 20%
+    }
+
+    .content {
+        border: 1px solid black;
+        margin: 0.5% 0;
+        width: 100%;
+    }
+
+    #header {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+  }

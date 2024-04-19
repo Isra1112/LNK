@@ -1,0 +1,62 @@
+.login {
+    border: 1px solid black;
+    margin: 5% auto;
+    width: 20%;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    width: 50%
+}
+
+form {
+    /* display: block; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    width: 60%
+}
+
+input {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+button{
+    background-color: rgb(83, 83, 249);
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    width: 80%;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For desktop: */
+    img {
+        display: block;
+        /* margin-left: 0;
+        margin-right: 0; */
+        width: 30%
+    }
+
+    .login {
+        /* border: 1px solid black; */
+        margin: 5% auto;
+        width: 50%;
+    }
+  }

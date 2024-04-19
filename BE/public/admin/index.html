@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Of comment</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/css/index.css">
+</head>
+
+<body>
+    <!-- <h1>Ini List Comment Admin Page</h1> -->
+    <div id="header" >
+        <a href="/admin/comments">List Of Comment</a>
+        <a href="#" onclick="goToLogin()">Logout</a>
+    </div>
+    <div class="list-comment content">
+        <div class="isi-content" id="isi-content">
+            <h2>List Of Comment</h2>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="/public/js/index.js"></script>
+    <script>
+        cekToken();
+
+        let urlComment = url.comment;
+        let comment;
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const nth = function (d) {
+            if (d > 3 && d < 21) return 'th';
+            switch (d % 10) {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        }
+
+        fetch(urlComment)
+            .then(response => response.json())
+            .then(repos => {
+
+                comment = repos.data;
+                if (comment.length < 1) {
+                    $('<div class="comment-container">')
+                        .append('<h2>No data Comment</h2>')
+                        .appendTo('.isi-content');
+                } else {
+                    comment.forEach(element => {
+                        let date = new Date(element.createdAt)
+                        let day = date.getDay()
+                        let month = months[date.getMonth()]
+                        let year = date.getFullYear()
+
+                        $('<div class="comment-container">')
+
+                            .append('<h2>' + element.name + '</h2>')
+                            .append('<h5>' + day + '<sup>' + nth(day) + '</sup> ' + month + ' ' + year + '</h5>')
+                            .append('<div class="isi-comment">' + '<p>' + element.comment + '</p>' +
+                                '<form action="/admin/comments/edit" >' +
+                                '<input type="hidden" name="id" value="' + element._id + '">' +
+                                '<button class="edit" >Edit</button>' +
+                                '</form>' +
+                                '<form action="javascript:handleDelete(\'' + element._id + '\')">' +
+                                '<button class="remove" >Remove</button>' +
+                                '</form>' +
+                                '</div>')
+                            .appendTo('.isi-content');
+                    });
+                }
+
+            })
+            .catch(err => console.log(err))
+
+        function handleDelete(id) {
+            $.ajax({
+                url: urlComment,
+                type: 'DELETE',
+                data: JSON.stringify({
+                    '_id': id
+                }),
+                headers: {
+                    'x-access-token': sessionStorage.getItem('token'),
+                    "Content-Type": "application/json"
+                },
+                dataType: 'json',
+                success: function (result) {
+                    alert("success Delete Comment");
+                    document.location.reload(true)
+                },
+                error: function (jqXHR, status, errorThrown) {
+                    if (cekErr(jqXHR.responseJSON.message)) {
+                        alert(jqXHR.responseJSON.message + " Please re Login!")
+                        goToLogin()
+                    }
+                    else {
+                        alert("error : " + errorThrown)
+                    }
+                }
+            });
+
+        }
+    </script>
+</body>
+
+</html>
